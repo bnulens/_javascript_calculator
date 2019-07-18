@@ -95,11 +95,16 @@
                 <button class="number-key" type="button" value="3">3</button>
                 <button class="number-key" type="button" value="0">0</button>
             </ul>
-
+            
+            <!-- Nicely styled Mike! -->
             <div id="operations">
                 <button class="key-operator" value="+">+</button>
                 <button class="key-operator" value="-">-</button>
-                <button class="key-operator" value="&times">&times;</button>
+                <!-- wrong values used here -->
+                <!-- <button class="key-operator" value="&times;">&times;</button> -->
+                <!-- <button class="key-operator" value="÷">÷</button> -->
+                <!-- should use '*' and '/' => these are interpretable by javascript-->
+                <button class="key-operator" value="&times;">&times;</button>
                 <button class="key-operator" value="÷">÷</button>
                 <button class="key-operator" value=".">.</button>
                 <button class="key-operator" value="c">C</button>
@@ -136,15 +141,11 @@
         //     document.getElementById("calc-numbers").innerHTML = buttonValue;
         // });
 
+        // ___________________________________________________
 
-    //     //    Listen for keypresses 
-    document.getElementById("calc-numbers").addEventListener("click", function(){
-            console.log('you pressed a number');
-        });
-    document.getElementById("operations").addEventListener("click", function(){
-            console.log('you pressed an operator');
-    });
-
+    // You will need a memory variable, which will be a String
+    // see it is defined outside of the functions... so you can access it within any function you want (scoped globally)
+    var memory = ''
 
     const allNumbers = document.querySelectorAll('.number-key');
         allNumbers.forEach( element => {
@@ -153,6 +154,11 @@
 
     function selectNumber(e) {
         const value = e.target.value;
+        console.log('Mike pressed number ', value);
+
+        // add the pressed number to the memory string
+        // log the memory to verify
+
         document.getElementById("calc-preview").innerHTML = value;
     }
     
@@ -160,14 +166,36 @@
         allOperators.forEach( element => {
         element.addEventListener('click', helloOperator);
     })
-
     
     function helloOperator(e) {
         const value = e.target.value;
-        document.getElementById("calc-preview").innerHTML = value;
+        console.log('Mike pressed operator ', value);
+        
+        // 1) store the length of your memory string in a var (local scope)
+        // this will come in handy to do logic on the last "index" of the memory string
+       
+        // 2) start doing the logic
+        // if the last index of the memory is already an operator... you can not add it to the memory string
+        // a situation like this is impossible:'1+2++'
+        // if so, the function should probably not do anything, and just return
+
+        // 3) check if the pressed button strictly equals '='
+        // if so, is the last index of your memory string a number? => tip: parseInt() the last index (w3schools)
+        // if so, find a way online to EVALUATE your javascript memory
+
+        // 4) check if the pressed button strictly equals 'c'
+        // if so, you want to reset the memory to an empty string ''
+
+        // 5) if the function gets to this step... it means you can safely add the pressed button to the memory string
+        // add the pressed button to the memory string
+
+        console.log(memory);
+        document.getElementById("calc-preview").innerHTML= value;
     }
-   
-   var calc = selectNumber+helloOperator+selectNumber;
+
+    //    Your functionality must go into a function
+    //    You can not sum up functions
+    //    var calc = selectNumber+helloOperator+selectNumber;
     
     </script>
     
