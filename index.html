@@ -11,7 +11,6 @@
         * {
             margin: 0px;
             padding: 0px;
-            
         }
         html, body {
             width: 100%;
@@ -104,8 +103,8 @@
                 <!-- <button class="key-operator" value="&times;">&times;</button> -->
                 <!-- <button class="key-operator" value="÷">÷</button> -->
                 <!-- should use '*' and '/' => these are interpretable by javascript-->
-                <button class="key-operator" value="&times;">&times;</button>
-                <button class="key-operator" value="÷">÷</button>
+                <button class="key-operator" value="*">&times;</button>
+                <button class="key-operator" value="/">÷</button>
                 <button class="key-operator" value=".">.</button>
                 <button class="key-operator" value="c">C</button>
                 <button class="key-operator" value="=">=</button>
@@ -125,22 +124,6 @@
             2. When you click a button, make the number/operation appear in the calc-preview div.
             3. ......
         */
-
-        // function myFunction() {
-        //     var pressInput = document.getElementsByTagName("button")[0];
-        //     pressInput.getAttributeNode("value").value ="";
-        // }
-
-            // function onPress(button) {
-            //         var buttonValue = button.value;
-            //         document.getElementById("calc-numbers").innerHTML = buttonValue;
-            //         console.log('value');
-            //     }
-
-        // document.addEventListener("click", function(onPress){
-        //     document.getElementById("calc-numbers").innerHTML = buttonValue;
-        // });
-
         // ___________________________________________________
 
     // You will need a memory variable, which will be a String
@@ -153,13 +136,29 @@
     })
 
     function selectNumber(e) {
+        console.log(e);
+        // console.log(e.srcElement.formAction);
+        // console.log(e.view.document.doctype.isConnected)
+        // var languagesArray = e.view.navigator.languages;
+        // console.log(languagesArray);
+
+        // for (let i = 0; i < languagesArray.length; i++) {
+        //     const language = languagesArray[i];
+        //     console.log("Brecht speaks: ",language);
+        // }
+        
+        // console.log("the client height of this browser equals: ", e.path[4].clientHeight);
+
         const value = e.target.value;
         console.log('Mike pressed number ', value);
-
+        // memory = memory + value; 
+        memory += value;
+        console.log("memory is: ",memory);
+        
         // add the pressed number to the memory string
         // log the memory to verify
 
-        document.getElementById("calc-preview").innerHTML = value;
+        document.getElementById("calc-preview").innerHTML = memory;
     }
     
     const allOperators = document.querySelectorAll('.key-operator');
@@ -173,30 +172,62 @@
         
         // 1) store the length of your memory string in a var (local scope)
         // this will come in handy to do logic on the last "index" of the memory string
-       
+        var memoryLength = memory.length;
+        
         // 2) start doing the logic
         // if the last index of the memory is already an operator... you can not add it to the memory string
         // a situation like this is impossible:'1+2++'
         // if so, the function should probably not do anything, and just return
-
-        // 3) check if the pressed button strictly equals '='
+        
+        // little exercise:
+        // var name = 'brecht';
+        // var nameLength = name.length;
+        // console.log(nameLength);
+        // console.log("The last letter of Brecht's name is: ", name[nameLength -1]);
+        console.log("Loggin the index of the letter c in Brecht's name ", name.indexOf('z'));
+        
+        
+        // 3) check if the pressed button strictly equals 'c'
+        // if so, you want to reset the memory to an empty string ''
+        if (value === "c"){
+            memory = '';
+            document.getElementById("calc-preview").innerHTML= memory;
+            return;
+        }
+        
+        // for situation '2+' and we're adding another operator
+        var operatorsArray = ['+', '-', '*', '/'];
+        // practice indexOf functions and Arrays
+        // first store last letter of memory
+        var lastCharacterOfMemory = memory[memoryLength - 1];
+        // then check if last letter is one of operatorsArray
+        if (operatorsArray.indexOf(lastCharacterOfMemory) > -1) {
+            return;
+        }
+        
+        // 4) check if the pressed button strictly equals '='
         // if so, is the last index of your memory string a number? => tip: parseInt() the last index (w3schools)
         // if so, find a way online to EVALUATE your javascript memory
 
-        // 4) check if the pressed button strictly equals 'c'
-        // if so, you want to reset the memory to an empty string ''
+        if (value === "="){
+            memory = eval(memory);
+            console.log(eval(memory));
+            document.getElementById("calc-preview").innerHTML= memory;
+            return;
+        }
 
         // 5) if the function gets to this step... it means you can safely add the pressed button to the memory string
         // add the pressed button to the memory string
+        memory += value; 
 
         console.log(memory);
-        document.getElementById("calc-preview").innerHTML= value;
+        document.getElementById("calc-preview").innerHTML= memory;
     }
 
     //    Your functionality must go into a function
     //    You can not sum up functions
-    //    var calc = selectNumber+helloOperator+selectNumber;
     
+
     </script>
     
 </body>
